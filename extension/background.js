@@ -1,7 +1,3 @@
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set({ toggle: 'on' });
-});
-
 async function fetchAsync(url) {
   let id = url.split('/')[4];
   let page = url.split('/')[5];
