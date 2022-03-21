@@ -6,7 +6,7 @@ Chrome extension for redirecting MangaDex/Imgur URLs to their Cubari complement.
 
 This extension has to be loaded as an unpacked extension because I don't want to pay $5 to register as a developer on the Chrome Web Store.
 
-1. Find the latest release on [the Releases page](https://github.com/jasonjewik/mangadex2cubari/releases. Download extension.zip under the "Assets" tab.
+1. Find the latest release on [the Releases page](https://github.com/jasonjewik/mangadex2cubari/releases). Download extension.zip under the "Assets" tab.
 
    <img src="images/assets.png">
 
@@ -14,7 +14,7 @@ This extension has to be loaded as an unpacked extension because I don't want to
 
    <img src="images/unzip.png">
 
-3. Go to Chrome's [extension manager](chrome://extensions). Click the button titled "Load unpacked" in the upper left corner. Select the folder that you unzipped in Step 2.
+3. Go to chrome://extensions. Click the button titled "Load unpacked" in the upper left corner. Select the folder that you unzipped in Step 2.
 
    <img src="images/load.png">
 
