@@ -17,35 +17,50 @@ async function fetchAsync(url) {
   }
 }
 
-chrome.webNavigation.onCommitted.addListener(
-  (details) => {
-    const url = details.url;
-    // Linked to a title page
-    const title_re = /https:\/\/mangadex\.org\/title\/(.+)\/(.+)/;
-    const title_match = url.match(title_re);
-    if (title_match != null) {
+async function tryMangaDex(url) {
+  // Linked to a title page
+  const title_re = /https:\/\/mangadex\.org\/title\/(.+)\/(.+)/;
+  const title_match = url.match(title_re);
+  if (title_match != null) {
+    chrome.tabs.create({
+      url: url.replace(title_re, 'https://cubari.moe/read/mangadex/$1'),
+    });
+  }
+  // Linked to a particular chapter
+  const chap_re = /https:\/\/mangadex\.org\/chapter\/*/;
+  const chap_match = url.match(chap_re);
+  if (chap_match != null) {
+    fetchAsync(url).then((target) => {
       chrome.tabs.create({
-        url: url.replace(title_re, 'https://cubari.moe/read/mangadex/$1'),
+        url: target,
       });
-    }
-    // Linked to a particular chapter
-    const chap_re = /https:\/\/mangadex\.org\/chapter\/*/;
-    const chap_match = url.match(chap_re);
-    if (chap_match != null) {
-      fetchAsync(url).then((target) => {
-        chrome.tabs.create({
-          url: target,
-        });
-      });
-    }
-    // Cleanup
-    if (title_match != null || chap_match != null) {
-      chrome.tabs.query({ url: url }, (tabs) => {
-        chrome.tabs.remove(tabs[0].id);
-      });
-    }
-  },
-  {
-    url: [{ urlMatches: 'https://mangadex.org' }],
-  },
-);
+    });
+  }
+}
+
+async function tryImgur(url) {
+  // Linked to an Imgur gallery
+  const re = /https:\/\/imgur\.com\/gallery\/(.+)/;
+  const match = url.match(re);
+  if (match != null) {
+    chrome.tabs.create({
+      url: url.replace(re, 'https://cubari.moe/read/imgur/$1/1/1'),
+    });
+  }
+}
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: 'redirect',
+    title: 'Open with Cubari',
+    type: 'normal',
+    contexts: ['link'],
+    targetUrlPatterns: ['*://mangadex.org/*', '*://imgur.com/*'],
+  });
+});
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  const url = info.linkUrl;
+  tryMangaDex(url);
+  tryImgur(url);
+});

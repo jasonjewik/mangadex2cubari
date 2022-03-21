@@ -1,11 +1,11 @@
 {
   "name": "MangaDex2Cubari",
-  "description": "Redirect MangaDex URLs to their Cubari complement.",
+  "description": "Redirect MangaDex/Imgur URLs to their Cubari complement.",
   "version": "1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["tabs", "webNavigation"],
+  "permissions": ["contextMenus", "tabs"],
   "host_permissions": ["*://*.mangadex.org/*", "*://*.cubari.moe/*"]
 }
