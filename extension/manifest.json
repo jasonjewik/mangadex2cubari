@@ -1,6 +1,6 @@
 {
   "name": "MangaDex2Cubari",
-  "description": "Redirect MangaDex/Imgur URLs to their Cubari complement.",
+  "description": "Redirect MangaDex/Imgur/Mangasee URLs to their Cubari complement.",
   "version": "1.0.0",
   "icons": { "128": "128.png" },
   "manifest_version": 3,

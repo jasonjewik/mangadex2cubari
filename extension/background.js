@@ -49,13 +49,28 @@ async function tryImgur(url) {
   }
 }
 
+async function tryMangasee(url) {
+  // Linked to a Mangasee series
+  const re = /https:\/\/mangasee123.com\/manga\/(.+)/;
+  const match = url.match(re);
+  if (match != null) {
+    chrome.tabs.create({
+      url: url.replace(re, 'https://cubari.moe/read/mangasee/$1'),
+    });
+  }
+}
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: 'redirect',
     title: 'Open with Cubari',
     type: 'normal',
     contexts: ['link'],
-    targetUrlPatterns: ['*://mangadex.org/*', '*://imgur.com/*'],
+    targetUrlPatterns: [
+      '*://mangadex.org/*',
+      '*://imgur.com/*',
+      '*://mangasee123.com/manga/*',
+    ],
   });
 });
 
@@ -63,4 +78,5 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   const url = info.linkUrl;
   tryMangaDex(url);
   tryImgur(url);
+  tryMangasee(url);
 });
